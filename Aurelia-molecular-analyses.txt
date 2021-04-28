@@ -1,0 +1,154 @@
+############################# Aurelia molecular analyses ############################
+#  POY5P, TNT, YBYRA, IQ-TREE (command-line), R Codes - Author: Jonathan W. Lawley  #
+#                           Used in: Lawley et al., 2021                            #
+#   The importance of molecular characters when morphological variability hinders   # 
+#                   diagnosability: systematics of the moon jellyfish               #
+#                           genus Aurelia (Cnidaria: Scyphozoa)                     #
+#                                 in review @ PeerJ                                 #
+#                                                                                   #
+#              Used for phylogenetic and pairwise distance analyses in              #
+#                     Figs 9, 11, S1-S5 (also see Tables S4-S9)                     #
+#                                                                                   #
+#               Contact: jonathan.wanderleylawley@griffithuni.edu.au                #
+
+### Single-marker analyses (16S marker used in examples below)
+
+##POY5P
+
+read("16S174D-eq.fasta")
+search(max_time:00:01:00)
+select()
+report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+wipe()
+read("16S174D-eq.fasta")
+search(max_time:00:03:00)
+select()
+report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+wipe()
+read("16S174D-eq.fasta")
+search(max_time:00:06:00)
+select()
+report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+wipe()
+read("16S174D-eq.fasta")
+read("16S174D-eq-do_trees.tre")
+select(unique)
+set(iterative:exact)
+fuse()
+select()
+report("16S174D-eq-ip_trees.tre",trees,"16S174D-eq-ip_scores.sts",treestats,searchstats,"16S174D-eq-ip_ia.fasta",fasta,"16S174D-eq-ip_consensus.tre", consensus)
+exit()
+
+##TNT (using first implied alignment from POY5P output)
+
+log 16S173D-eq-ip_ia1-results.txt;
+mxram  6000;
+nstates DNA;
+nstates GAPS;
+proc 16S173D-eq-ip_ia1.tnt;
+hold 1000000;
+taxname=;
+collapse [;
+sect:slack 100;
+xmult= consense 10 css rss xss replic 10 ratchet 50 drift 50 fuse 10;
+tchoose/;
+export - consensus_tree.tre;
+export [ alignment.nex;
+tsave *consensus_tree-tnt.tre;
+save.;
+tsave/;
+ttags=;
+proc BREMER.run;
+ttag & bremer.svg;
+export - bremer.tre;
+ttags-;
+ttags=;
+bleng*;
+ttag & blen.svg;
+export > blen.tre;
+log/;
+proc/;
+zzz
+
+##YBYRA
+
+log OUTPUT.log;
+Mxram 512 ;
+taxname +80 ;
+proc alignment.nex ;
+hold 1000 ;
+proc consensus_tree.tre ;
+taxname=;
+apo [-;
+ttags-;
+ttags(;
+naked-;
+nelsen;
+ttags);
+tplot;
+tsave *OUTPUT.tre;
+save*;
+tsave/;
+log/;
+quit
+
+##R (Uncorrected pairwise distances calculations)
+
+dist=read.csv("16sdist.csv", header=FALSE, sep=",") #importing distance matrix from Geneious (edited in excel previously)
+species=levels(factor(dist[c(3:171),2])) #retrieving species names
+species=species[species!=""]
+groups1=split(dist[c(3:171),c(3:171)], dist[c(3:171),2]) #splitting distance matrix into species groups by rows
+dist.matrix=matrix(NA,length(species),length(species)) #creating empty distance matrix for interspecific distances
+rownames(dist.matrix)=colnames(dist.matrix)=species
+dist.matrix.intra=matrix(NA,length(species),2) #creating empty distance matrix for intraspecific distances
+rownames(dist.matrix.intra)=species
+colnames(dist.matrix.intra)=c("mean","max")
+intra.dist=numeric() #creating distance vector to build distance histogram plots after loop
+inter.dist=numeric()
+temp.name1=character()
+for (i in 1:length(groups1)){ #loop to calculate intra and interspecific distances
+  group.temp=groups1[i] #selects one species distance matrix from the split (groups1), ex. A. aurita
+  temp.name=names(groups1[i]) #selects the name of that species
+  temp.name1=append(temp.name1,temp.name) #use this so it won't select previously calculated interspecific distances
+  col.temp=which(dist[2,c(3:171)]==temp.name) #which columns from that species' distance matrix belongs to the same species
+  col.temp2=which(is.na(match(as.vector(as.matrix(dist[2,c(3:171)])), temp.name1))) #which columns from that species' distance matrix belongs to the different species
+  group.temp=as.data.frame(group.temp)
+  intra.group=group.temp[,col.temp] #intraspecific distance matrix
+  intra.group.mean=min(as.numeric(as.matrix(intra.group)), na.rm=T) #mean intraspecific distance
+  dist.matrix.intra[i,1]=intra.group.mean #saving the mean to a data.frame
+  intra.group.max=max(as.numeric(as.matrix(intra.group)), na.rm=T) #maximum intraspecific distance
+  dist.matrix.intra[i,2]=intra.group.max #saving the maximum to a data.frame
+  intra.group1=intra.group[lower.tri(as.matrix(intra.group))] #numeric vector of intraspecific distance values
+  intra.dist=append(intra.dist, intra.group1) #numeric vector that will have all intraspecific distance values
+  inter.group.all=group.temp[,col.temp2] #interspecific distance matrix
+  inter.group.all1=as.matrix(inter.group.all) #numeric vector of interspecific distance values
+  inter.dist=append(inter.dist, as.numeric(inter.group.all1)) #numeric vector that will have all interspecific distance values
+  for (j in 1:length(groups1)){
+    temp.name2=names(groups1[j]) #name of the next species group within ex. A. coerulea, within the A. aurita distance matrix
+    if (!is.na(match(temp.name2,temp.name1))) next #if condition is true, jumps to next loop round
+    col.temp3=which(dist[2,c(3:171)]==temp.name2) #which columns from this species' distance matrix belongs to that other species
+    inter.group=group.temp[,col.temp3] #matrix with distances between these species
+    inter.group.mean=min(as.numeric(as.matrix(inter.group)), na.rm=T) #mean interspecific distance between these species
+    dist.matrix[j,i]=inter.group.mean #saving the mean interspecific distance between these species (lower triangle of matrix)
+    inter.group.min=max(as.numeric(as.matrix(inter.group)), na.rm=T) #min interspecific distance between these species
+    dist.matrix[i,j]=inter.group.min #saving the min interspecific distance between these species (upper triangle of matrix)
+  }
+}
+breaks1=ceiling(max(inter.dist, na.rm=T)) #plotting distance histogram
+h=hist(append(as.numeric(intra.dist), as.numeric(inter.dist)), breaks=seq(0, breaks1, 0.5), freq=T)
+total=sum(h$counts)
+p1=hist(as.numeric(intra.dist), breaks=seq(0, breaks1, 0.5), freq=TRUE)
+p2=hist(as.numeric(inter.dist), breaks=seq(0, breaks1, 0.5), freq=TRUE)
+par(mar=c(5,5,1,1))
+plot(main=NULL, p1, col="gray88", ylab="Frequency (%)", xlab="Uncorrected Pairwise Distance (%)", freq=T, xlim = c(0,breaks1), ylim = c(0,1365), lwd=2, yaxt="n")
+plot( p2, col="gray30", add=T, freq=T)
+axis(side=2, at=c(0,(0.02*total),(0.04*total),(0.06*total),(0.08*total),(0.1*total),(0.12*total)), labels = c(0,2,4,6,8,10,12), lwd=2, las=1)
+write.table(dist.matrix, "dist.matrix.tsv", sep="\t")
+
+###Concatenated phylogenetic analysis
+
+##TNT (as above)
+
+##IQ-TREE
+
+iqtree -s concat-new.nex -st DNA -m TESTNEW -bb 10000 -alrt 10000 -nt AUTO
