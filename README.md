@@ -10,4 +10,4 @@
 
 ## Molecular analyses
 
-<p>- <strong>Aurelia-molecular-analyses.txt</strong> - Used for phylogenetic and pairwise distance analyses in Figs 9, 11, S1-S5 (also see Tables S4-S9).</p>
+<p>- <strong>Aurelia-molecular-analyses.txt</strong> - Used for phylogenetic and pairwise distance analyses in Figs 9, 11, S1-S5 (also see Tables S4-S9). For input raw data see Figshare publication https://doi.org/10.6084/m9.figshare.14502474 </p>
