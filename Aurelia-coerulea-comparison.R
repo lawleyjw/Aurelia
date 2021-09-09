@@ -4,7 +4,7 @@
 #   The importance of molecular characters when morphological variability hinders   # 
 #                   diagnosability: systematics of the moon jellyfish               #
 #                           genus Aurelia (Cnidaria: Scyphozoa)                     #
-#                                 in review @ PeerJ                                 #
+#                       PeerJ https://doi.org/10.7717/peerj.11954                   #
 #                                                                                   #
 #                        Used for Welch's t-test in Fig. 8                          #
 #                                                                                   #
