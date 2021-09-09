@@ -1,6 +1,6 @@
 # <em>Aurelia</em> systematics
 <p>Code for morphological and molecular analyses used in:<br>
-<strong>Lawley, J.W., Gamero-Mora, E., Maronna, M.M., Chiaverano, L.M., Stampar, S.N., Hopcroft, R.R., Collins, A.G., Morandini, A.C. 2021. The importance of molecular characters when morphological variability hinders diagnosability: systematics of the moon jellyfish genus <em>Aurelia</em> (Cnidaria: Scyphozoa). PeerJ (in review).</strong></p>
+<strong>Lawley, J.W., Gamero-Mora, E., Maronna, M.M., Chiaverano, L.M., Stampar, S.N., Hopcroft, R.R., Collins, A.G., Morandini, A.C. 2021. The importance of molecular characters when morphological variability hinders diagnosability: systematics of the moon jellyfish genus <em>Aurelia</em> (Cnidaria: Scyphozoa). PeerJ https://doi.org/10.7717/peerj.11954.</strong></p>
 
 ## Morphological analyses
 
