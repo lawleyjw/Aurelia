@@ -74,27 +74,6 @@ zzz
 
 ybyra_apo.py -t consensus_tree.tre -m alignment.nex -S
 
-#Contents of OUTPUT.run:
-log OUTPUT.log;
-Mxram 512 ;
-taxname +80 ;
-proc alignment.nex ;
-hold 1000 ;
-proc consensus_tree.tre ;
-taxname=;
-apo [-;
-ttags-;
-ttags(;
-naked-;
-nelsen;
-ttags);
-tplot;
-tsave *OUTPUT.tre;
-save*;
-tsave/;
-log/;
-quit
-
 ##R (Uncorrected pairwise distances calculations)
 
 dist=read.csv("16sdist.csv", header=FALSE, sep=",") #importing distance matrix from Geneious (edited in excel previously)
