@@ -15,37 +15,37 @@
 
 ##POY5P
 
-read("16S174D-eq.fasta")
+read("16S-Aurelia.fasta")
 search(max_time:00:01:00)
 select()
-report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+report("16S-Aurelia-do_trees.tre",trees,"16S-Aurelia-do_scores.sts",treestats,searchstats,"16S-Aurelia-do_ia.fasta",fasta,"16S-Aurelia-do_consensus.tre", consensus)
 wipe()
-read("16S174D-eq.fasta")
+read("16S-Aurelia.fasta")
 search(max_time:00:03:00)
 select()
-report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+report("16S-Aurelia-do_trees.tre",trees,"16S-Aurelia-do_scores.sts",treestats,searchstats,"16S-Aurelia-do_ia.fasta",fasta,"16S-Aurelia-do_consensus.tre", consensus)
 wipe()
-read("16S174D-eq.fasta")
+read("16S-Aurelia.fasta")
 search(max_time:00:06:00)
 select()
-report("16S174D-eq-do_trees.tre",trees,"16S174D-eq-do_scores.sts",treestats,searchstats,"16S174D-eq-do_ia.fasta",fasta,"16S174D-eq-do_consensus.tre", consensus)
+report("16S-Aurelia-do_trees.tre",trees,"16S-Aurelia-do_scores.sts",treestats,searchstats,"16S-Aurelia-do_ia.fasta",fasta,"16S-Aurelia-do_consensus.tre", consensus)
 wipe()
-read("16S174D-eq.fasta")
-read("16S174D-eq-do_trees.tre")
+read("16S-Aurelia.fasta")
+read("16S-Aurelia-do_trees.tre")
 select(unique)
 set(iterative:exact)
 fuse()
 select()
-report("16S174D-eq-ip_trees.tre",trees,"16S174D-eq-ip_scores.sts",treestats,searchstats,"16S174D-eq-ip_ia.fasta",fasta,"16S174D-eq-ip_consensus.tre", consensus)
+report("16S-Aurelia-ip_trees.tre",trees,"16S-Aurelia-ip_scores.sts",treestats,searchstats,"16S-Aurelia-ip_ia.fasta",fasta,"16S-Aurelia-ip_consensus.tre", consensus)
 exit()
 
 ##TNT (using first implied alignment from POY5P output)
 
-log 16S173D-eq-ip_ia1-results.txt;
+log 16S-Aurelia-ip_ia1-results.txt;
 mxram  6000;
 nstates DNA;
 nstates GAPS;
-proc 16S173D-eq-ip_ia1.tnt;
+proc 16S-Aurelia-ip_ia1.tnt;
 hold 1000000;
 taxname=;
 collapse [;
